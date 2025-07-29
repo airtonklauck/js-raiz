@@ -26,6 +26,64 @@ const menus = new Map(
     )
 )
 
-const restauranteId = menus.get('b91e5b07-df6c-4b3f-8028-ab39471ae0e9').restauranteId
+// Refatorando para reduce
 
-console.log(restaurantes.get(restauranteId))
+const novosDados = dados.reduce(
+    (acc, { menus, ...restauranteRest }) => {
+        acc.restaurantes.push(
+            [
+                restauranteRest.id,
+                {
+                    menus: menus.map(menu => menu.id),
+                    ...restauranteRest
+                }
+            ]
+        )
+        acc.menus = [
+            ...acc.menus,
+            ...menus.map(menu => [
+                menu.id,
+                {
+                    ...menu,
+                    restauranteId: restauranteRest.id
+                }
+            ])
+        ]
+        return acc
+    },
+    { restaurantes: [], menus: [] }
+)
+
+// Refatorando o reduce
+
+const novosDados2 = dados.reduce(
+    (acc, { menus, ...restauranteRest }) => ({
+        ...acc,
+        restaurantes: [
+            ...acc.restaurantes,
+            [
+                restauranteRest.id,
+                {
+                    menus: menus.map(menu => menu.id),
+                    ...restauranteRest
+                }
+            ]
+        ],
+        menus: [
+            ...acc.menus,
+            ...menus.map(menu => [
+                menu.id,
+                {
+                    ...menu,
+                    restauranteId: restauranteRest.id
+                }
+            ])
+        ]
+    }),
+    { restaurantes: [], menus: [] }
+)
+
+const restaurantesRefatorado = new Map(novosDados2.restaurantes)
+const menusRefatorado = new Map(novosDados2.menus)
+
+console.log(restaurantesRefatorado)
