@@ -1,4 +1,4 @@
-import dados from './dadsos/restaurantes.js'
+import dados from './payload.js'
 
 
 const restaurantes = new Map(
@@ -86,4 +86,7 @@ const novosDados2 = dados.reduce(
 const restaurantesRefatorado = new Map(novosDados2.restaurantes)
 const menusRefatorado = new Map(novosDados2.menus)
 
-console.log(restaurantesRefatorado)
+export default {
+    restaurantes: restaurantesRefatorado,
+    menus: menusRefatorado
+}
