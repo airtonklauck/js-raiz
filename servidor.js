@@ -1,7 +1,7 @@
 import http from 'http'
 import fs from 'fs'
 import dados from './estaticos/dados.js'
-
+console.log(dados.restaurantes)
 const servidor = http.createServer((req, res) => {
 
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -37,6 +37,22 @@ const servidor = http.createServer((req, res) => {
 
         <body>
             <h1>Olá mundo</h1>
+            ${Array.from(dados.menus.values()).map(menu =>
+                `
+                <div class="cardapio">
+                    <header>
+                        <h3>${menu.title} - ${dados.restaurantes.get(menu.restauranteId).name}</h3>
+                    </header>
+                    <div class="cardapio-body">
+                        <ul>
+                            ${menu.sections.map(secao =>
+                    `<li>${secao.title}</li>`
+                ).join('')}
+                        </ul>
+                    </div>  
+                </div>
+                `
+            ).join('')}
             <script type="module" src="dados.js"></script>
         </body>
 
