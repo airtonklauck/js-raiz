@@ -50,45 +50,8 @@ const servidor = http.createServer((req, res) => {
                 // pois quando a stream termina ele já envoca isso automaticamente
                 res.end()
 
-            })
-
-                res.write(
-                    `
-                <!DOCTYPE html>
-
-                <html lang="pt-br">
-
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>JS Raiz</title>
-                </head>
-
-                <body>
-                    <h1>Olá mundo</h1>
-                    ${Array.from(dados.menus.values()).map(menu =>
-                        `
-                        <div class="cardapio">
-                            <header>
-                                <h3>${menu.title} - ${dados.restaurantes.get(menu.restauranteId).name}</h3>
-                            </header>
-                            <div class="cardapio-body">
-                                <ul>
-                                    ${menu.sections.map(secao =>
-                            `<li>${secao.title}</li>`
-                        ).join('')}
-                                </ul>
-                            </div>  
-                        </div>
-                        `
-                    ).join('')}
-                    <script type="module" src="dados.js"></script>
-                </body>
-
-                </html>
-        `
-                )
-
+            }
+        )
     }
 })
 

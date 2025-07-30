@@ -1,8 +1,7 @@
 import dados from './dados.js'
 
 function cardapioTemplate() {
-    return
-    `
+    return `
         <div class="cardapio">
             <header>
                 <h3>Cardapio - Restaurante Nome</h3>
@@ -15,4 +14,8 @@ function cardapioTemplate() {
         </div>
     `
 }
+
+const $cardapios = document.querySelector('.cardapios')
+$cardapios.insertAdjacentHTML('beforeend', cardapioTemplate())
+
 console.log('Renderizando', dados)

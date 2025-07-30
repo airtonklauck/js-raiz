@@ -9,23 +9,34 @@
 </head>
 
 <body>
-    <% menus.forEach(menu=> { %>
-        <h1>Olá mundo</h1>
-        <div class="cardapio">
-            <header>
-                <h3><%= menu.title %> - <%= menu.restaurante.nome %></h3>
-            </header>
-            <div class="cardapio-body">
-                <ul>
-                    <% menu.sections.forEach(section=> { %>
-                        <li><%= section.title %></li>
-                        <% }) %>
-                </ul>
-            </div>
+    <div id="app">
+        <div class="cardapios">
+            <% menus.forEach(menu=> { %>
+
+                <h1>Olá mundo</h1>
+                
+                <div class="cardapio">
+                    <header>
+                        <h3>
+                            <%= menu.title %> - <%= menu.restaurante.nome %>
+                        </h3>
+                    </header>
+                    <div class="cardapio-body">
+                        <ul>
+                            <% menu.sections.forEach(section=> { %>
+                                <li>
+                                    <%= section.title %>
+                                </li>
+                                <% }) %>
+                        </ul>
+                    </div>
+                </div>
+                <% }) %>
         </div>
-        <% }) %>
-            <script type="module" src="dados.js"></script>
-            <script type="module" src="main.js"></script>
+    </div>
+
+    <script type="module" src="dados.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 
 </html>
