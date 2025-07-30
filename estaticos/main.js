@@ -1,21 +1,34 @@
 import dados from './dados.js'
 
-function cardapioTemplate() {
+function templateCardapio(menu) {
     return `
-        <div class="cardapio">
+        <div class="cardapio" style="color: red">
             <header>
-                <h3>Cardapio - Restaurante Nome</h3>
+                <h3>${menu.title} - ${menu.restaurante.nome}</h3>
             </header>
             <div class="cardapio-body">
                 <ul>
-                    <li>Section - Title</li>
+                ${menu.sections.map(section =>
+        `<li>${section.title}</li>`
+    ).join('')}
                 </ul>
             </div>  
         </div>
     `
 }
 
-const $cardapios = document.querySelector('.cardapios')
-$cardapios.insertAdjacentHTML('beforeend', cardapioTemplate())
+const templateCardapios = Array.from(dados.menus.values())
+    .slice(3)
+    .map(menu => ({
+        ...menu,
+        restaurante: {
+            nome: dados.restaurantes.get(menu.restauranteId).name
+        }
+    }))
+    .map(templateCardapio)
+    .join('')
 
-console.log('Renderizando', dados)
+const $cardapios = document.querySelector('.cardapios')
+$cardapios.insertAdjacentHTML('beforeend', templateCardapios)
+
+// console.log('Renderizando', templateCardapios)

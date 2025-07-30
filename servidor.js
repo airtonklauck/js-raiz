@@ -3,6 +3,8 @@ import fs from 'fs'
 import ejs from 'ejs'
 import dados from './estaticos/dados.js'
 
+// console.log('dados.menus', dados.menus.values())
+
 const servidor = http.createServer((req, res) => {
 
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -32,8 +34,7 @@ const servidor = http.createServer((req, res) => {
                     restaurante: {
                         nome: dados.restaurantes.get(menu.restauranteId).name
                     }
-                })
-                )
+                }))
         }
 
         ejs.renderFile('./templates/index.ejs',
