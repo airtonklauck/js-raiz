@@ -1,5 +1,34 @@
 import dados from './dados.js'
 
+function _ehString(valor) {
+    return typeof valor === 'string'
+}
+
+function _ehFilho(valor) {
+    return Array.isArray(valor) || _ehString(valor)
+}
+
+function _normalizarFilhos(filhos) {
+
+    if (_ehString(filhos))
+        return document.createTextNode(filhos)
+
+    if (Array.isArray(filhos))
+        return filhos.map(filho =>
+            _ehString(filho)
+                ?
+                document.createTextNode(filho)
+                :
+                filho
+        )
+
+    return filhos
+}
+
+function _transformarEmArray(valor) {
+    return Array.isArray(valor) ? valor : [valor]
+}
+
 function elemento(tagNome, atributos, filhos) {
 
     /**
@@ -10,18 +39,19 @@ function elemento(tagNome, atributos, filhos) {
      */
 
     const $elemento = document.createElement(tagNome)
-    const _filhos = (Array.isArray(atributos) || typeof atributos === 'string')
+
+    const _filhos = _ehFilho(atributos)
         ? atributos : filhos
 
-    if (typeof _filhos === 'string') {
-        $elemento.appendChild(
-            document.createTextNode(_filhos)
-        )
-    } else {
-        for (let $filho of _filhos) {
-            $elemento.appendChild($filho)
-        }
-    }
+    const _atributos = !_ehFilho(atributos) ? atributos : {}
+
+    Object.entries(_atributos).forEach(([chave, valor]) =>
+        $elemento.setAttribute(chave, valor))
+
+    const $filhos = _normalizarFilhos(_filhos)
+
+    _transformarEmArray($filhos)
+        .forEach($filho => $elemento.appendChild($filho))
 
     return $elemento
 
@@ -30,10 +60,12 @@ function elemento(tagNome, atributos, filhos) {
 function templateCardapio(menu) {
     return elemento('div', [
         elemento('header', [
-            elemento('h3',
-                { style: 'color: red' },
-                `${menu.title} - ${menu.restaurante.nome}`
-            )
+            elemento('h3', { style: 'color: red' }, `${menu.title} - ${menu.restaurante.nome}`),
+            elemento('div', [
+                elemento('span', 'Olá'),
+                'mundo',
+                elemento('strong', '!!!')
+            ])
         ]),
         elemento('div', [
             elemento('ul',
